@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Eliminar producto</title>
+</head>
+
+<body>
+
+    <h1>Eliminar producto</h1>
+
+    <p>
+        ¿Seguro que querés eliminar
+        <strong>{{ object.nombre }}</strong>?
+    </p>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <button type="submit">
+            Sí, eliminar
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="{% url 'lista_productos' %}">
+        Cancelar
+    </a>
+
+</body>
+
+</html>
