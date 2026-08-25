@@ -1,65 +1,15 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from .models import Producto
 from .forms import ProductoForm
 
 
-def crear_producto(request):
-    if request.method == 'POST':
-        form = ProductoForm(request.POST)
-
-        if form.is_valid():
-            form.save()
-            return redirect('inicio')
-
-    else:
-        form = ProductoForm()
-
-    contexto = {
-        'form': form
-    }
-
-    return render(request, 'core/crear_producto.html', contexto)
-
-
-def editar_producto(request, producto_id):
-    producto = get_object_or_404(Producto, id=producto_id)
-
-    if request.method == 'POST':
-        form = ProductoForm(request.POST, instance=producto)
-
-        if form.is_valid():
-            form.save()
-            return redirect('inicio')
-
-    else:
-        form = ProductoForm(instance=producto)
-
-    contexto = {
-        'form': form,
-        'producto': producto
-    }
-
-    return render(request, 'core/editar_producto.html', contexto)
-
-
-def eliminar_producto(request, producto_id):
-    producto = get_object_or_404(Producto, id=producto_id)
-
-    if request.method == 'POST':
-        producto.delete()
-        return redirect('inicio')
-
-    contexto = {
-        'producto': producto
-    }
-
-    return render(request, 'core/eliminar_producto.html', contexto)
-
-
+# PÁGINA DE INICIO
 def inicio(request):
+
     productos = Producto.objects.all()
 
     contexto = {
@@ -72,25 +22,50 @@ def inicio(request):
     return render(request, 'core/inicio.html', contexto)
 
 
+# READ - LISTAR Y BUSCAR PRODUCTOS
 class ProductoListView(ListView):
     model = Producto
     template_name = 'core/productos.html'
     context_object_name = 'productos'
 
+    def get_queryset(self):
 
-class ProductoCreateView(CreateView):
+        queryset = super().get_queryset()
+
+        query = self.request.GET.get('q', '')
+
+        if query:
+            queryset = queryset.filter(
+                nombre__icontains=query
+            )
+
+        return queryset
+
+
+# CREATE - CREAR PRODUCTO
+class ProductoCreateView(PermissionRequiredMixin, CreateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'core/crear_producto.html'
-    success_url = reverse_lazy('lista_productos')
+    success_url = reverse_lazy('core:lista_productos')
 
-class ProductoUpdateView(UpdateView):
+    permission_required = 'core.add_producto'
+
+
+# UPDATE - EDITAR PRODUCTO
+class ProductoUpdateView(PermissionRequiredMixin, UpdateView):
     model = Producto
     form_class = ProductoForm
     template_name = 'core/editar_producto.html'
-    success_url = reverse_lazy('lista_productos')
+    success_url = reverse_lazy('core:lista_productos')
 
-class ProductoDeleteView(DeleteView):
+    permission_required = 'core.change_producto'
+
+
+# DELETE - ELIMINAR PRODUCTO
+class ProductoDeleteView(PermissionRequiredMixin, DeleteView):
     model = Producto
     template_name = 'core/eliminar_producto.html'
-    success_url = reverse_lazy('lista_productos')
+    success_url = reverse_lazy('core:lista_productos')
+
+    permission_required = 'core.delete_producto'

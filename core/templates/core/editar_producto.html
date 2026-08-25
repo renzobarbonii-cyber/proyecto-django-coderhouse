@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html>
+{% extends 'core/base.html' %}
 
-<head>
-    <title>Editar producto</title>
-</head>
 
-<body>
+{% block title %}
+    Editar producto
+{% endblock %}
 
-    <h1>Editar producto</h1>
 
-    <p>Estás editando: {{ object.nombre }}</p>
+{% block content %}
+
+    <h2>Editar producto</h2>
+
+    <p>
+        Estás editando:
+        <strong>{{ object.nombre }}</strong>
+    </p>
 
     <form method="POST">
 
@@ -25,10 +29,8 @@
 
     <br>
 
-    <a href="{% url 'inicio' %}">
+    <a href="{% url 'core:lista_productos' %}">
         Cancelar
     </a>
 
-</body>
-
-</html>
+{% endblock %}

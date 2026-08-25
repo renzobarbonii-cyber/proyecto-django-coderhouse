@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends 'core/base.html' %}
 
-<head>
-    <title>Nuevo producto</title>
-</head>
 
-<body>
+{% block title %}
+    Agregar producto
+{% endblock %}
 
-    <h1>Agregar producto</h1>
+
+{% block content %}
+
+    <h2>Agregar producto</h2>
 
     <form method="POST">
 
@@ -23,10 +24,8 @@
 
     <br>
 
-    <a href="/">
-        Volver al inicio
+    <a href="{% url 'core:lista_productos' %}">
+        Cancelar
     </a>
 
-</body>
-
-</html>
+{% endblock %}

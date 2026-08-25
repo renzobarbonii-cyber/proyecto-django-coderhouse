@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        {% block title %}
+            Mi proyecto Django
+        {% endblock %}
+    </title>
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Mi proyecto Django</h1>
+
+        <nav>
+
+            <a href="{% url 'core:inicio' %}">
+                Inicio
+            </a>
+
+            |
+
+            <a href="{% url 'core:lista_productos' %}">
+                Productos
+            </a>
+
+
+            {% if perms.core.add_producto %}
+
+                |
+
+                <a href="{% url 'core:crear_producto' %}">
+                    Agregar producto
+                </a>
+
+            {% endif %}
+
+        </nav>
+
+        <hr>
+
+    </header>
+
+
+    <main>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </main>
+
+
+    <hr>
+
+    <footer>
+        <p>Proyecto Django - Coderhouse</p>
+    </footer>
+
+</body>
+
+</html>

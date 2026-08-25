@@ -1,7 +1,11 @@
 from django.contrib import admin
 from .models import Producto
 
-admin.site.register(Producto)
+
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'precio', 'stock')
+    search_fields = ('nombre',)
+    list_filter = ('stock',)
 
 
-# Register your models here.
+admin.site.register(Producto, ProductoAdmin)

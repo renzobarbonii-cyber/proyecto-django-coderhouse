@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends 'core/base.html' %}
 
-<head>
-    <title>Eliminar producto</title>
-</head>
 
-<body>
+{% block title %}
+    Eliminar producto
+{% endblock %}
 
-    <h1>Eliminar producto</h1>
+
+{% block content %}
+
+    <h2>Eliminar producto</h2>
 
     <p>
         ¿Seguro que querés eliminar
@@ -26,10 +27,8 @@
 
     <br>
 
-    <a href="{% url 'lista_productos' %}">
+    <a href="{% url 'core:lista_productos' %}">
         Cancelar
     </a>
 
-</body>
-
-</html>
+{% endblock %}
