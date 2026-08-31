@@ -8,10 +8,35 @@
 
 {% block content %}
 
-    <h2>Lista de productos</h2>
+    <div class="page-header">
+
+        <div>
+            <h2>Productos</h2>
+
+            <p class="page-description">
+                Explorá los productos disponibles.
+            </p>
+        </div>
 
 
-    <form method="GET">
+        {% if perms.core.add_producto %}
+
+            <a
+                href="{% url 'core:crear_producto' %}"
+                class="button-link"
+            >
+                + Agregar producto
+            </a>
+
+        {% endif %}
+
+    </div>
+
+
+    <form
+        method="GET"
+        class="search-form"
+    >
 
         <input
             type="text"
@@ -26,43 +51,77 @@
 
     </form>
 
-    <br>
+
+    <div class="productos-grid">
+
+        {% for producto in productos %}
+
+            <div class="producto-card">
+
+                <h3>
+                    {{ producto.nombre }}
+                </h3>
 
 
-    {% for producto in productos %}
-
-        <h3>{{ producto.nombre }}</h3>
-
-        <p>Precio: ${{ producto.precio }}</p>
-
-        <p>Stock: {{ producto.stock }}</p>
+                <p class="producto-precio">
+                    ${{ producto.precio }}
+                </p>
 
 
-        {% if perms.core.change_producto %}
-
-            <a href="{% url 'core:editar_producto' producto.id %}">
-                Editar
-            </a>
-
-        {% endif %}
-
-
-        {% if perms.core.delete_producto %}
-
-            <a href="{% url 'core:eliminar_producto' producto.id %}">
-                Eliminar
-            </a>
-
-        {% endif %}
+                <p>
+                    Stock:
+                    <strong>
+                        {{ producto.stock }}
+                    </strong>
+                </p>
 
 
-        <hr>
+                <div class="producto-actions">
+
+                    {% if perms.core.change_producto %}
+
+                        <a
+                            href="{% url 'core:editar_producto' producto.id %}"
+                            class="button-link"
+                        >
+                            Editar
+                        </a>
+
+                    {% endif %}
 
 
-    {% empty %}
+                    {% if perms.core.delete_producto %}
 
-        <p>No se encontraron productos.</p>
+                        <a
+                            href="{% url 'core:eliminar_producto' producto.id %}"
+                            class="button-link danger"
+                        >
+                            Eliminar
+                        </a>
 
-    {% endfor %}
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+        {% empty %}
+
+            <div class="empty-message">
+
+                <h3>
+                    No se encontraron productos
+                </h3>
+
+                <p>
+                    Probá realizando otra búsqueda.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
 
 {% endblock %}

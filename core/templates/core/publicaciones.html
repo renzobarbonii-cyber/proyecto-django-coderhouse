@@ -1,0 +1,101 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+    Blog
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                Blog
+            </h2>
+
+            <p class="page-description">
+                Publicaciones de nuestra comunidad.
+            </p>
+
+        </div>
+
+
+        {% if user.is_authenticated %}
+
+            <a
+                href="{% url 'core:crear_publicacion' %}"
+                class="button-link"
+            >
+                + Nueva publicación
+            </a>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="blog-grid">
+
+        {% for publicacion in publicaciones %}
+
+            <article class="blog-card">
+
+                <h3>
+                    {{ publicacion.titulo }}
+                </h3>
+
+
+                <p class="blog-meta">
+
+                    Por
+
+                    <strong>
+                        {{ publicacion.autor.username }}
+                    </strong>
+
+                    ·
+
+                    {{ publicacion.fecha_creacion|date:"d/m/Y H:i" }}
+
+                </p>
+
+
+                <p>
+
+                    {{ publicacion.contenido|truncatechars:180 }}
+
+                </p>
+
+
+                <a
+                    href="{% url 'core:detalle_publicacion' publicacion.id %}"
+                    class="button-link"
+                >
+                    Leer más
+                </a>
+
+            </article>
+
+
+        {% empty %}
+
+            <div class="empty-message">
+
+                <h3>
+                    Todavía no hay publicaciones
+                </h3>
+
+                <p>
+                    Sé el primero en publicar algo.
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

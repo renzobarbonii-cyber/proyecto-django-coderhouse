@@ -2,21 +2,21 @@
 
 
 {% block title %}
-    Eliminar producto
+    Eliminar publicación
 {% endblock %}
 
 
 {% block content %}
 
     <h2>
-        Eliminar producto
+        Eliminar publicación
     </h2>
 
 
     <p>
         ¿Seguro que querés eliminar
         <strong>
-            {{ object.nombre }}
+            "{{ object.titulo }}"
         </strong>
         ?
     </p>
@@ -41,7 +41,7 @@
     <br>
 
 
-    <a href="{% url 'core:lista_productos' %}">
+    <a href="{% url 'core:detalle_publicacion' object.id %}">
         Cancelar
     </a>
 

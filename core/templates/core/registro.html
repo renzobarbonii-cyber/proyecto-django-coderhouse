@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+    Registrarse
+{% endblock %}
+
+
+{% block content %}
+
+    <h2>Crear cuenta</h2>
+
+    <p>
+        Completá tus datos para registrarte.
+    </p>
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Crear cuenta
+        </button>
+
+    </form>
+
+
+    <p>
+        ¿Ya tenés una cuenta?
+
+        <a href="{% url 'core:login' %}">
+            Iniciar sesión
+        </a>
+    </p>
+
+{% endblock %}

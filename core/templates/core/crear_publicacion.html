@@ -2,22 +2,19 @@
 
 
 {% block title %}
-    Editar producto
+    Nueva publicación
 {% endblock %}
 
 
 {% block content %}
 
     <h2>
-        Editar producto
+        Nueva publicación
     </h2>
 
 
-    <p>
-        Estás editando:
-        <strong>
-            {{ object.nombre }}
-        </strong>
+    <p class="page-description">
+        Compartí una publicación en el blog.
     </p>
 
 
@@ -29,7 +26,7 @@
 
 
         <button type="submit">
-            Guardar cambios
+            Publicar
         </button>
 
     </form>
@@ -38,7 +35,7 @@
     <br>
 
 
-    <a href="{% url 'core:lista_productos' %}">
+    <a href="{% url 'core:lista_publicaciones' %}">
         Cancelar
     </a>
 

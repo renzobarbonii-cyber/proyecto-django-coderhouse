@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+    Contacto
+{% endblock %}
+
+
+{% block content %}
+
+    <h2>Contacto</h2>
+
+    <p>
+        Si querés comunicarte con nosotros,
+        completá el siguiente formulario.
+    </p>
+
+
+    {% if enviado %}
+
+        <p>
+            ✅ Tu mensaje fue enviado correctamente.
+        </p>
+
+    {% endif %}
+
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">
+            Enviar mensaje
+        </button>
+
+    </form>
+
+{% endblock %}

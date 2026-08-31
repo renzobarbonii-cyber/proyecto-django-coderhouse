@@ -8,47 +8,274 @@
 
 {% block content %}
 
-    <h2>Hola {{ nombre }} 👋</h2>
+    <section class="hero">
 
-    <p>Estoy aprendiendo {{ curso }}</p>
+        <div class="hero-content">
 
-    <p>Tengo {{ edad }} años.</p>
-
-
-    {% if edad >= 18 %}
-        <p>Sos mayor de edad ✅</p>
-    {% else %}
-        <p>Sos menor de edad</p>
-    {% endif %}
+            <p class="hero-label">
+                Proyecto Final · Django
+            </p>
 
 
-    <h2>Productos</h2>
+            <h2>
+                Una plataforma creada con Python y Django
+            </h2>
 
 
-    {% for producto in productos %}
-
-        <h3>{{ producto.nombre }}</h3>
-
-        <p>Precio: ${{ producto.precio }}</p>
-
-        <p>Stock: {{ producto.stock }}</p>
+            <p class="hero-description">
+                Gestioná productos, participá en el blog,
+                creá tu perfil y explorá las funcionalidades
+                desarrolladas durante el curso.
+            </p>
 
 
-        <a href="{% url 'core:editar_producto' producto.id %}">
-            Editar
-        </a>
+            <div class="hero-actions">
 
-        <a href="{% url 'core:eliminar_producto' producto.id %}">
-            Eliminar
-        </a>
+                <a
+                    href="{% url 'core:lista_publicaciones' %}"
+                    class="button-link"
+                >
+                    Explorar blog
+                </a>
 
-        <hr>
+
+                <a
+                    href="{% url 'core:lista_productos' %}"
+                    class="button-secondary"
+                >
+                    Ver productos
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
 
 
-    {% empty %}
+    <section class="home-section">
 
-        <p>No hay productos cargados.</p>
+        <div class="section-header">
 
-    {% endfor %}
+            <div>
+
+                <h2>
+                    Funcionalidades
+                </h2>
+
+                <p class="page-description">
+                    Algunas de las principales funciones
+                    desarrolladas en el proyecto.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="features-grid">
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🛍️
+                </div>
+
+                <h3>
+                    Productos
+                </h3>
+
+                <p>
+                    Listado, búsqueda y administración de
+                    productos mediante operaciones CRUD.
+                </p>
+
+                <a href="{% url 'core:lista_productos' %}">
+                    Ver productos →
+                </a>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ✍️
+                </div>
+
+                <h3>
+                    Blog
+                </h3>
+
+                <p>
+                    Los usuarios pueden crear publicaciones
+                    y administrar su propio contenido.
+                </p>
+
+                <a href="{% url 'core:lista_publicaciones' %}">
+                    Ir al blog →
+                </a>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    👤
+                </div>
+
+                <h3>
+                    Usuarios
+                </h3>
+
+                <p>
+                    Registro, inicio de sesión,
+                    perfiles editables y permisos.
+                </p>
+
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'core:perfil' %}">
+                        Mi perfil →
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'core:registro' %}">
+                        Crear cuenta →
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    ✉️
+                </div>
+
+                <h3>
+                    Contacto
+                </h3>
+
+                <p>
+                    Formulario personalizado con
+                    validaciones realizadas mediante Django Forms.
+                </p>
+
+                <a href="{% url 'core:contacto' %}">
+                    Contactar →
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <section class="home-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <h2>
+                    Productos disponibles
+                </h2>
+
+                <p class="page-description">
+                    Algunos productos cargados en la plataforma.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'core:lista_productos' %}"
+                class="button-secondary"
+            >
+                Ver todos
+            </a>
+
+        </div>
+
+
+        <div class="productos-grid">
+
+
+            {% for producto in productos %}
+
+                <div class="producto-card">
+
+                    <h3>
+                        {{ producto.nombre }}
+                    </h3>
+
+
+                    <p class="producto-precio">
+                        ${{ producto.precio }}
+                    </p>
+
+
+                    <p>
+                        Stock:
+                        <strong>
+                            {{ producto.stock }}
+                        </strong>
+                    </p>
+
+
+                    <div class="producto-actions">
+
+                        {% if perms.core.change_producto %}
+
+                            <a
+                                href="{% url 'core:editar_producto' producto.id %}"
+                                class="button-link"
+                            >
+                                Editar
+                            </a>
+
+                        {% endif %}
+
+
+                        {% if perms.core.delete_producto %}
+
+                            <a
+                                href="{% url 'core:eliminar_producto' producto.id %}"
+                                class="button-link danger"
+                            >
+                                Eliminar
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+            {% empty %}
+
+                <div class="empty-message">
+
+                    <p>
+                        Todavía no hay productos cargados.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+
+        </div>
+
+    </section>
 
 {% endblock %}

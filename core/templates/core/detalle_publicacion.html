@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+    {{ publicacion.titulo }}
+{% endblock %}
+
+
+{% block content %}
+
+    <article class="publicacion-detalle">
+
+
+        <a
+            href="{% url 'core:lista_publicaciones' %}"
+            class="volver-link"
+        >
+            ← Volver al blog
+        </a>
+
+
+        <h2>
+            {{ publicacion.titulo }}
+        </h2>
+
+
+        <p class="blog-meta">
+
+            Publicado por
+
+            <strong>
+                {{ publicacion.autor.username }}
+            </strong>
+
+            ·
+
+            {{ publicacion.fecha_creacion|date:"d/m/Y H:i" }}
+
+        </p>
+
+
+        <div class="publicacion-contenido">
+
+            {{ publicacion.contenido|linebreaks }}
+
+        </div>
+
+
+        {% if user == publicacion.autor %}
+
+            <div class="producto-actions">
+
+                <a
+                    href="{% url 'core:editar_publicacion' publicacion.id %}"
+                    class="button-link"
+                >
+                    Editar publicación
+                </a>
+
+
+                <a
+                    href="{% url 'core:eliminar_publicacion' publicacion.id %}"
+                    class="button-link danger"
+                >
+                    Eliminar publicación
+                </a>
+
+            </div>
+
+        {% endif %}
+
+
+    </article>
+
+{% endblock %}
